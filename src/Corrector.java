@@ -1,6 +1,5 @@
 // Меняет раскладку
 
-import java.lang.invoke.ConstantBootstraps;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,13 +46,46 @@ public class Corrector {
         corrected.put('.', 'ю');
         corrected.put('>', 'Ю');
         corrected.put('z', 'я');
+        corrected.put('ф', 'a');
+        corrected.put('и', 'b');
+        corrected.put('с', 'c');
+        corrected.put('в', 'd');
+        corrected.put('у', 'e');
+        corrected.put('а', 'f');
+        corrected.put('п', 'g');
+        corrected.put('р', 'h');
+        corrected.put('ш', 'i');
+        corrected.put('о', 'j');
+        corrected.put('л', 'k');
+        corrected.put('д', 'l');
+        corrected.put('ь', 'm');
+        corrected.put('т', 'n');
+        corrected.put('щ', 'o');
+        corrected.put('з', 'p');
+        corrected.put('й', 'q');
+        corrected.put('к', 'r');
+        corrected.put('ы', 's');
+        corrected.put('е', 't');
+        corrected.put('г', 'u');
+        corrected.put('м', 'v');
+        corrected.put('ц', 'w');
+        corrected.put('ч', 'x');
+        corrected.put('н', 'y');
+        corrected.put('я', 'z');
         corrected.put('б', ',');
+        corrected.put('Б', '<');
         corrected.put('ю', '.');
+        corrected.put('Ю', '>');
         corrected.put('ж', ';');
-        corrected.put('э' ,'\'');
-        corrected.put('х','[');
+        corrected.put('Ж', ':');
+        corrected.put('э', '\'');
+        corrected.put('Э', '\"');
+        corrected.put('х', '[');
+        corrected.put('Х', '{');
         corrected.put('ъ', ']');
+        corrected.put('Ъ', '}');
         corrected.put('ё', '`');
+        corrected.put('Ё', '~');
 
         if (corrected.get(ch) != null) {
             return corrected.get(ch);
@@ -69,65 +101,5 @@ public class Corrector {
             ct[i] = Corrector.getCorrectChar(ct[i]);
         }
         return new String(ct);
-    }
-
-    public static char getInvertChar(char ch) {
-        Map<Character, Character> inverted = new HashMap<>();
-        inverted.put('ф', 'a');
-        inverted.put('и', 'b');
-        inverted.put('с', 'c');
-        inverted.put('в', 'd');
-        inverted.put('у', 'e');
-        inverted.put('а', 'f');
-        inverted.put('п', 'g');
-        inverted.put('р', 'h');
-        inverted.put('ш', 'i');
-        inverted.put('о', 'j');
-        inverted.put('л', 'k');
-        inverted.put('д', 'l');
-        inverted.put('ь', 'm');
-        inverted.put('т', 'n');
-        inverted.put('щ', 'o');
-        inverted.put('з', 'p');
-        inverted.put('й', 'q');
-        inverted.put('к', 'r');
-        inverted.put('ы', 's');
-        inverted.put('е', 't');
-        inverted.put('г', 'u');
-        inverted.put('м', 'v');
-        inverted.put('ц', 'w');
-        inverted.put('ч', 'x');
-        inverted.put('н', 'y');
-        inverted.put('я', 'z');
-        inverted.put('б', ',');
-        inverted.put('Б', '<');
-        inverted.put('ю', '.');
-        inverted.put('Ю', '>');
-        inverted.put('ж', ';');
-        inverted.put('Ж', ':');
-        inverted.put('э', '\'');
-        inverted.put('Э', '\"');
-        inverted.put('х', '[');
-        inverted.put('Х', '{');
-        inverted.put('ъ', ']');
-        inverted.put('Ъ', '}');
-        inverted.put('ё', '`');
-        inverted.put('Ё', '~');
-
-        if (inverted.get(ch) != null) {
-            return inverted.get(ch);
-        } else if (Character.isUpperCase(ch) & (inverted.get(Character.toLowerCase(ch)) != null)) {
-            return Character.toUpperCase(inverted.get(Character.toLowerCase(ch)));
-        } else {
-            return ch;
-        }
-    }
-
-    public static String getInvertString (String text) {
-        char[] it = text.toCharArray();
-        for (int i = 0; i < it.length; i++) {
-            it[i] = Corrector.getInvertChar(it[i]);
-        }
-        return new String(it);
     }
 }

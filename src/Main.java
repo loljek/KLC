@@ -6,7 +6,7 @@ import java.awt.*;
 public class Main {
     public static void main (String[] args) {
         String inputTextFile = "inputText.txt";
-        String correctTextFile = "outputText.txt";
+        String outputTextFile = "outputText.txt";
         String configFile = "config.txt";
 
         JFrame frame = new JFrame("KLC");
@@ -18,7 +18,7 @@ public class Main {
         JTextArea ta1 = new JTextArea();
         ta1.setText(FileManager.loadText(inputTextFile));
         JTextArea ta2 = new JTextArea();
-        ta2.setText(FileManager.loadText(correctTextFile));
+        ta2.setText(FileManager.loadText(outputTextFile));
         Dimension ta_size = new Dimension(340, 500);
         ta1.setPreferredSize(ta_size);
         ta2.setPreferredSize(ta_size);
@@ -39,7 +39,7 @@ public class Main {
         cb1.setText("умная конвертация");
         cb1.setSelected(FileManager.loadConfig(configFile, 0));
         JCheckBox cb2 = new JCheckBox();
-        cb2.setText("инверсия");
+        cb2.setText("сохранять текст");
         cb2.setSelected(FileManager.loadConfig(configFile, 1));
         Dimension cb_size = new Dimension(300, 20);
         cb1.setMinimumSize(cb_size);
@@ -57,14 +57,12 @@ public class Main {
 
         correct.addActionListener(e -> {
             try {
-                if (!cb2.isSelected()) {
+                if (cb2.isSelected()) {
                     FileManager.saveText(inputTextFile, ta1.getText());
                     ta2.setText(Corrector.getCorrectString(ta1.getText()));
-                    FileManager.saveText(correctTextFile, ta2.getText());
+                    FileManager.saveText(outputTextFile, ta2.getText());
                 } else {
-                    FileManager.saveText(inputTextFile, ta1.getText());
-                    ta2.setText(Corrector.getInvertString(ta1.getText()));
-                    FileManager.saveText(correctTextFile, ta2.getText());
+                    ta2.setText(Corrector.getCorrectString(ta1.getText()));
                 }
                 FileManager.saveConfig(configFile, cb1.isSelected(), cb2.isSelected());
             } catch (Exception ex) {
