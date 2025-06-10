@@ -11,7 +11,7 @@ public class Main {
 
         JFrame frame = new JFrame("KLC");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension frame_size = new Dimension(700, 670);
+        Dimension frame_size = new Dimension(700, 700);
         frame.setSize(frame_size);
         frame.setLocationRelativeTo(null);
 
@@ -41,6 +41,9 @@ public class Main {
         JCheckBox cb2 = new JCheckBox();
         cb2.setText("сохранять текст");
         cb2.setSelected(FileManager.loadConfig(configFile, 1));
+        JCheckBox cb3 = new JCheckBox();
+        cb3.setText("тёмная тема");
+        cb3.setSelected(FileManager.loadConfig(configFile, 2));
         Dimension cb_size = new Dimension(300, 20);
         cb1.setMinimumSize(cb_size);
         cb1.setPreferredSize(cb_size);
@@ -48,12 +51,64 @@ public class Main {
         cb2.setMinimumSize(cb_size);
         cb2.setPreferredSize(cb_size);
         cb2.setMaximumSize(cb_size);
+        cb3.setMinimumSize(cb_size);
+        cb3.setPreferredSize(cb_size);
+        cb3.setMaximumSize(cb_size);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(correct);
         buttonPanel.add(cb1);
         buttonPanel.add(cb2);
+        buttonPanel.add(cb3);
+
+        Color default_bg = new Color(238, 238,238);
+        Color dark_bg = new Color(30, 30, 30);
+        Color default_button_bg = new Color(0, 170, 180);
+        Color dark_button_bg = new Color(70, 110, 110);
+        Color default_ta_bg = new Color(255,255,255);
+        Color dark_ta_bg = new Color(0, 0, 0);
+        Color default_fg = new Color(51, 51, 51);
+        Color dark_fg = new Color(240, 240, 240);
+
+        if (cb3.isSelected()) {
+            frame.getContentPane().setBackground(dark_bg);
+            textPanel.setBackground(dark_bg);
+            buttonPanel.setBackground(dark_bg);
+            correct.setBackground(dark_button_bg);
+            correct.setForeground(dark_fg);
+            ta1.setBackground(dark_ta_bg);
+            ta1.setForeground(dark_fg);
+            ta2.setBackground(dark_ta_bg);
+            ta2.setForeground(dark_fg);
+            cb1.setBackground(dark_bg);
+            cb1.setForeground(dark_fg);
+            cb2.setBackground(dark_bg);
+            cb2.setForeground(dark_fg);
+            cb3.setBackground(dark_bg);
+            cb3.setForeground(dark_fg);
+        } else {
+            frame.getContentPane().setBackground(default_bg);
+            textPanel.setBackground(default_bg);
+            buttonPanel.setBackground(default_bg);
+            correct.setBackground(default_button_bg);
+            correct.setForeground(default_fg);
+            ta1.setBackground(default_ta_bg);
+            ta1.setForeground(default_fg);
+            ta2.setBackground(default_ta_bg);
+            ta2.setForeground(default_fg);
+            cb1.setBackground(default_bg);
+            cb1.setForeground(default_fg);
+            cb2.setBackground(default_bg);
+            cb2.setForeground(default_fg);
+            cb3.setBackground(default_bg);
+            cb3.setForeground(default_fg);
+        }
+
+        frame.setLayout(new FlowLayout());
+        frame.add(textPanel);
+        frame.add(buttonPanel);
+        frame.setVisible(true);
 
         correct.addActionListener(e -> {
             try {
@@ -64,17 +119,59 @@ public class Main {
                 } else {
                     ta2.setText(Corrector.getCorrectString(ta1.getText()));
                 }
-                FileManager.saveConfig(configFile, cb1.isSelected(), cb2.isSelected());
+                FileManager.saveConfig(configFile, cb1.isSelected(), cb2.isSelected(), cb3.isSelected());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
 
-        frame.setLayout(new FlowLayout());
-        frame.add(textPanel);
-        frame.add(buttonPanel);
-        frame.setVisible(true);
+        cb2.addActionListener(e -> {
+            try {
+                FileManager.saveConfig(configFile, FileManager.loadConfig(configFile, 0), cb2.isSelected(), FileManager.loadConfig(configFile, 2));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
-//      System.out.println(WordsChecker.isWordExists("1"));
+        cb3.addActionListener(e -> {
+            try {
+                FileManager.saveConfig(configFile, FileManager.loadConfig(configFile, 0), FileManager.loadConfig(configFile, 1), cb3.isSelected());
+                if (cb3.isSelected()) {
+                    frame.getContentPane().setBackground(dark_bg);
+                    textPanel.setBackground(dark_bg);
+                    buttonPanel.setBackground(dark_bg);
+                    correct.setBackground(dark_button_bg);
+                    correct.setForeground(dark_fg);
+                    ta1.setBackground(dark_ta_bg);
+                    ta1.setForeground(dark_fg);
+                    ta2.setBackground(dark_ta_bg);
+                    ta2.setForeground(dark_fg);
+                    cb1.setBackground(dark_bg);
+                    cb1.setForeground(dark_fg);
+                    cb2.setBackground(dark_bg);
+                    cb2.setForeground(dark_fg);
+                    cb3.setBackground(dark_bg);
+                    cb3.setForeground(dark_fg);
+                } else {
+                    frame.getContentPane().setBackground(default_bg);
+                    textPanel.setBackground(default_bg);
+                    buttonPanel.setBackground(default_bg);
+                    correct.setBackground(default_button_bg);
+                    correct.setForeground(default_fg);
+                    ta1.setBackground(default_ta_bg);
+                    ta1.setForeground(default_fg);
+                    ta2.setBackground(default_ta_bg);
+                    ta2.setForeground(default_fg);
+                    cb1.setBackground(default_bg);
+                    cb1.setForeground(default_fg);
+                    cb2.setBackground(default_bg);
+                    cb2.setForeground(default_fg);
+                    cb3.setBackground(default_bg);
+                    cb3.setForeground(default_fg);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 }
