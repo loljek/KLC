@@ -1,3 +1,5 @@
+// Считывает текст из файла и записывает текст в файл
+
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;

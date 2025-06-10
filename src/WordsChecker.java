@@ -1,3 +1,5 @@
+// Пока не работает ಠ_ಠ, но потом будет проверять сверятся с !онлайн! словарём
+
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

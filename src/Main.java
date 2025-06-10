@@ -1,3 +1,5 @@
+// Создаёт и запускает приложение
+
 import javax.swing.*;
 import java.awt.*;
 
