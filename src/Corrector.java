@@ -6,6 +6,7 @@ import java.util.Map;
 public class Corrector {
     public static char getCorrectChar(char ch) {
         Map<Character, Character> corrected = new HashMap<>();
+        // с английской на русскую
         corrected.put('f', 'а');
         corrected.put(',', 'б');
         corrected.put('<', 'Б');
@@ -46,6 +47,7 @@ public class Corrector {
         corrected.put('.', 'ю');
         corrected.put('>', 'Ю');
         corrected.put('z', 'я');
+        // с русской на английскую
         corrected.put('ф', 'a');
         corrected.put('и', 'b');
         corrected.put('с', 'c');

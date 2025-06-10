@@ -36,7 +36,7 @@ public class Main {
         correct.setMaximumSize(correct_size);
 
         JCheckBox cb1 = new JCheckBox();
-        cb1.setText("умная конвертация");
+        cb1.setText("умная конвертация (в разработке)");
         cb1.setSelected(FileManager.loadConfig(configFile, 0));
         JCheckBox cb2 = new JCheckBox();
         cb2.setText("сохранять текст");
@@ -75,6 +75,6 @@ public class Main {
         frame.add(buttonPanel);
         frame.setVisible(true);
 
-//        System.out.println(WordsChecker.isWordExists("1"));
+//      System.out.println(WordsChecker.isWordExists("1"));
     }
 }
