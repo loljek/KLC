@@ -1,4 +1,4 @@
-// Считывает текст из файла и записывает текст в файл
+// Работает с файлами
 
 import java.io.File;
 import java.io.FileWriter;

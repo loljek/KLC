@@ -36,7 +36,7 @@ public class Main {
         correct.setMaximumSize(correct_size);
 
         JCheckBox cb1 = new JCheckBox();
-        cb1.setText("умная конвертация (в разработке)");
+        cb1.setText("умная конвертация (работает медленнее)");
         cb1.setSelected(FileManager.loadConfig(configFile, 0));
         JCheckBox cb2 = new JCheckBox();
         cb2.setText("сохранять текст");
@@ -64,7 +64,7 @@ public class Main {
 
         Color default_bg = new Color(238, 238,238);
         Color dark_bg = new Color(30, 30, 30);
-        Color default_button_bg = new Color(0, 170, 180);
+        Color default_button_bg = new Color(220, 175, 125);
         Color dark_button_bg = new Color(70, 110, 110);
         Color default_ta_bg = new Color(255,255,255);
         Color dark_ta_bg = new Color(0, 0, 0);
@@ -112,14 +112,17 @@ public class Main {
 
         correct.addActionListener(e -> {
             try {
-                if (cb2.isSelected()) {
-                    FileManager.saveText(inputTextFile, ta1.getText());
-                    ta2.setText(Corrector.getCorrectString(ta1.getText()));
-                    FileManager.saveText(outputTextFile, ta2.getText());
+                if (cb1.isSelected()){
+                    String corrected = Corrector.getCorrectString(ta1.getText());
+                    ta2.setText(WordsChecker.checkText(corrected));
                 } else {
                     ta2.setText(Corrector.getCorrectString(ta1.getText()));
                 }
-                FileManager.saveConfig(configFile, cb1.isSelected(), cb2.isSelected(), cb3.isSelected());
+                if (cb2.isSelected()){
+                    FileManager.saveText(inputTextFile, ta1.getText());
+                    FileManager.saveText(outputTextFile, ta2.getText());
+                }
+                FileManager.saveConfig(configFile, cb1.isSelected(), FileManager.loadConfig(configFile, 1), FileManager.loadConfig(configFile, 2));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
