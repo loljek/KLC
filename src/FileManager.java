@@ -28,4 +28,31 @@ public class FileManager {
             e.printStackTrace();
         }
     }
+
+    public static boolean loadConfig (String file, int n) {
+        boolean f = false;
+        try {
+            Scanner sc = new Scanner(new File(file));
+            for (int i = 0; i <= n; i++){
+                f = sc.nextBoolean();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return f;
+    }
+
+    public static void saveConfig (String file, boolean... f) {
+        try {
+            StringBuilder config = new StringBuilder();
+            for (int i = 0; i < f.length; i++) {
+                config.append(f[i] + "\n");
+            }
+            FileWriter fw = new FileWriter(file);
+            fw.write(config.toString());
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
