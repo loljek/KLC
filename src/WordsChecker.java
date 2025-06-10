@@ -1,5 +1,3 @@
-// dict.1.1.20250606T160955Z.6534a1e0d15e867f.479fccef72e6a68e749f7286b31f3cb38e63bbc3
-
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
