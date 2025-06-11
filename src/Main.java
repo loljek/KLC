@@ -68,6 +68,8 @@ public class Main {
         Color dark_button_bg = new Color(70, 110, 110);
         Color default_ta_bg = new Color(255,255,255);
         Color dark_ta_bg = new Color(0, 0, 0);
+        Color default_caret = new Color(25,25,25);
+        Color dark_caret = new Color(220, 220, 220);
         Color default_fg = new Color(51, 51, 51);
         Color dark_fg = new Color(240, 240, 240);
 
@@ -79,8 +81,10 @@ public class Main {
             correct.setForeground(dark_fg);
             ta1.setBackground(dark_ta_bg);
             ta1.setForeground(dark_fg);
+            ta1.setCaretColor(dark_caret);
             ta2.setBackground(dark_ta_bg);
             ta2.setForeground(dark_fg);
+            ta2.setCaretColor(dark_caret);
             cb1.setBackground(dark_bg);
             cb1.setForeground(dark_fg);
             cb2.setBackground(dark_bg);
@@ -95,8 +99,10 @@ public class Main {
             correct.setForeground(default_fg);
             ta1.setBackground(default_ta_bg);
             ta1.setForeground(default_fg);
+            ta1.setCaretColor(default_caret);
             ta2.setBackground(default_ta_bg);
             ta2.setForeground(default_fg);
+            ta2.setCaretColor(default_caret);
             cb1.setBackground(default_bg);
             cb1.setForeground(default_fg);
             cb2.setBackground(default_bg);
@@ -147,8 +153,10 @@ public class Main {
                     correct.setForeground(dark_fg);
                     ta1.setBackground(dark_ta_bg);
                     ta1.setForeground(dark_fg);
+                    ta1.setCaretColor(dark_caret);
                     ta2.setBackground(dark_ta_bg);
                     ta2.setForeground(dark_fg);
+                    ta2.setCaretColor(dark_caret);
                     cb1.setBackground(dark_bg);
                     cb1.setForeground(dark_fg);
                     cb2.setBackground(dark_bg);
@@ -163,8 +171,10 @@ public class Main {
                     correct.setForeground(default_fg);
                     ta1.setBackground(default_ta_bg);
                     ta1.setForeground(default_fg);
+                    ta1.setCaretColor(default_caret);
                     ta2.setBackground(default_ta_bg);
                     ta2.setForeground(default_fg);
+                    ta2.setCaretColor(default_caret);
                     cb1.setBackground(default_bg);
                     cb1.setForeground(default_fg);
                     cb2.setBackground(default_bg);

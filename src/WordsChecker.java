@@ -15,6 +15,10 @@ public class WordsChecker {
             boolean isLN = false;
             boolean isFN = false;
             String word = text;
+            if (last == '#' & first == '#'){
+                word = text.substring(1, text.length() - 1);
+                return word;
+            }
             if (!Character.isLetter(last) & !Character.isLetter(first)) {
                 word = text.substring(1, text.length() - 1);
                 isLN = true;
@@ -42,18 +46,14 @@ public class WordsChecker {
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             StringBuilder r = new StringBuilder(jsonObject.get("s").toString().split("\"")[1]);
 
-            if (isLN & isFN) {
-                r.insert(0, first);
+            if (isLN) {
                 r.append(last);
-            } else if (isLN) {
-                r.append(last);
-            } else if (isFN) {
+            }
+            if (isFN) {
                 r.insert(0, first);
             }
             return r + " ";
-        } catch (Exception e) {
-
-        }
+        } catch (Exception ignored) {}
         return text + " ";
     }
 

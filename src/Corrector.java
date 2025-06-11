@@ -99,8 +99,14 @@ public class Corrector {
 
     public static String getCorrectString (String text) {
         char[] ct = text.toCharArray();
+        boolean inside = false;
         for (int i = 0; i < ct.length; i++) {
-            ct[i] = Corrector.getCorrectChar(ct[i]);
+            if (ct[i] == '#') {
+                inside = !inside;
+                ct[i] = 0;
+            } else if (!inside) {
+                ct[i] = getCorrectChar(ct[i]);
+            }
         }
         return new String(ct);
     }
