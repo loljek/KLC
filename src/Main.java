@@ -213,14 +213,14 @@ public class Main {
         });
 
         view.addActionListener(e -> {
-            if (frame.getWidth() == 1090 & frame.getHeight() == 550) {
-                isHorisontal.set(false);
-                frame.setSize(frame_size);
+            if (frame.getWidth() <= 700) {
+                isHorisontal.set(true);
+                frame.setSize(frame_size2);
                 frame.setLocationRelativeTo(null);
                 FileManager.saveConfig(configFile ,FileManager.loadConfig(configFile, 0), FileManager.loadConfig(configFile,1), FileManager.loadConfig(configFile,2), isHorisontal.get());
             } else {
-                isHorisontal.set(true);
-                frame.setSize(frame_size2);
+                isHorisontal.set(false);
+                frame.setSize(frame_size);
                 frame.setLocationRelativeTo(null);
                 FileManager.saveConfig(configFile ,FileManager.loadConfig(configFile, 0), FileManager.loadConfig(configFile,1), FileManager.loadConfig(configFile,2), isHorisontal.get());
             }
