@@ -15,10 +15,6 @@ public class WordsChecker {
             boolean isLN = false;
             boolean isFN = false;
             String word = text;
-            if (last == '#' & first == '#'){
-                word = text.substring(1, text.length() - 1);
-                return word;
-            }
             if (!Character.isLetter(last) & !Character.isLetter(first)) {
                 word = text.substring(1, text.length() - 1);
                 isLN = true;
