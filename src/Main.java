@@ -1,6 +1,8 @@
 // Создаёт и запускает приложение
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -23,9 +25,9 @@ public class Main {
         frame.setLocationRelativeTo(null);
 
         JTextArea ta1 = new JTextArea();
-        ta1.setText(FileManager.loadText(inputTextFile));
+        ta1.setText("");
         JTextArea ta2 = new JTextArea();
-        ta2.setText(FileManager.loadText(outputTextFile));
+        ta1.setText("");
         Dimension ta_size = new Dimension(340, 500);
         ta1.setPreferredSize(ta_size);
         ta2.setPreferredSize(ta_size);
@@ -36,7 +38,7 @@ public class Main {
         textPanel.setPreferredSize(new Dimension(700, 500));
 
         JButton correct = new JButton();
-        correct.setText("поменять раскладку");
+        correct.setText("загрузить текст");
         Dimension correct_size = new Dimension(350, 70);
         correct.setMinimumSize(correct_size);
         correct.setPreferredSize(correct_size);
@@ -79,10 +81,8 @@ public class Main {
 
         Color default_bg = new Color(238, 238,238);
         Color dark_bg = new Color(30, 30, 30);
-        Color default_correct_bg = new Color(220, 175, 125);
-        Color dark_correct_bg = new Color(70, 110, 110);
-        Color default_view_bg = new Color(200, 175, 140);
-        Color dark_view_bg = new Color(90, 105, 105);
+        Color default_button_bg = new Color(220, 175, 125);
+        Color dark_button_bg = new Color(70, 110, 110);
         Color default_ta_bg = new Color(255,255,255);
         Color dark_ta_bg = new Color(0, 0, 0);
         Color default_caret = new Color(10,10,10);
@@ -94,7 +94,7 @@ public class Main {
             frame.getContentPane().setBackground(dark_bg);
             textPanel.setBackground(dark_bg);
             buttonPanel.setBackground(dark_bg);
-            correct.setBackground(dark_correct_bg);
+            correct.setBackground(dark_button_bg);
             correct.setForeground(dark_fg);
             ta1.setBackground(dark_ta_bg);
             ta1.setForeground(dark_fg);
@@ -108,13 +108,13 @@ public class Main {
             cb2.setForeground(dark_fg);
             cb3.setBackground(dark_bg);
             cb3.setForeground(dark_fg);
-            view.setBackground(dark_view_bg);
+            view.setBackground(dark_button_bg);
             view.setForeground(dark_fg);
         } else {
             frame.getContentPane().setBackground(default_bg);
             textPanel.setBackground(default_bg);
             buttonPanel.setBackground(default_bg);
-            correct.setBackground(default_correct_bg);
+            correct.setBackground(default_button_bg);
             correct.setForeground(default_fg);
             ta1.setBackground(default_ta_bg);
             ta1.setForeground(default_fg);
@@ -128,7 +128,7 @@ public class Main {
             cb2.setForeground(default_fg);
             cb3.setBackground(default_bg);
             cb3.setForeground(default_fg);
-            view.setBackground(default_view_bg);
+            view.setBackground(default_button_bg);
             view.setForeground(default_fg);
         }
 
@@ -137,20 +137,56 @@ public class Main {
         frame.add(buttonPanel);
         frame.setVisible(true);
 
+        ta1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (ta1.getText().isEmpty()) {
+                    correct.setText("загрузить текст");
+                } else {
+                    correct.setText("поменять раскладку");
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (ta1.getText().isEmpty()) {
+                    correct.setText("загрузить текст");
+                } else {
+                    correct.setText("поменять раскладку");
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (ta1.getText().isEmpty()) {
+                    correct.setText("загрузить текст");
+                } else {
+                    correct.setText("поменять раскладку");
+                }
+
+            }
+        });
+
         correct.addActionListener(e -> {
             try {
-                if (cb1.isSelected()){
-                    String corrected = Corrector.getCorrectString(ta1.getText());
-                    ta2.setText(WordsChecker.checkText(corrected));
+                if (ta1.getText().isEmpty()) {
+                    ta1.setText(FileManager.loadText(inputTextFile));
+                    ta2.setText(FileManager.loadText(outputTextFile));
+                    correct.setText("поменять раскладку");
                 } else {
-                    ta2.setText(Corrector.getCorrectString(ta1.getText()));
+                    if (cb1.isSelected()) {
+                        String corrected = Corrector.getCorrectString(ta1.getText());
+                        ta2.setText(WordsChecker.checkText(corrected));
+                    } else {
+                        ta2.setText(Corrector.getCorrectString(ta1.getText()));
+                    }
+                    if (cb2.isSelected()) {
+                        FileManager.saveText(inputTextFile, ta1.getText());
+                        FileManager.saveText(outputTextFile, ta2.getText());
+                        FileManager.saveConfig(configFile, cb1.isSelected(), FileManager.loadConfig(configFile, 1), FileManager.loadConfig(configFile, 2), FileManager.loadConfig(configFile, 3));
+                    }
                 }
-                if (cb2.isSelected()){
-                    FileManager.saveText(inputTextFile, ta1.getText());
-                    FileManager.saveText(outputTextFile, ta2.getText());
-                }
-                FileManager.saveConfig(configFile, cb1.isSelected(), FileManager.loadConfig(configFile, 1), FileManager.loadConfig(configFile, 2), FileManager.loadConfig(configFile, 3));
-            } catch (Exception ex) {
+            } catch(Exception ex){
                 ex.printStackTrace();
             }
         });
@@ -170,7 +206,7 @@ public class Main {
                     frame.getContentPane().setBackground(dark_bg);
                     textPanel.setBackground(dark_bg);
                     buttonPanel.setBackground(dark_bg);
-                    correct.setBackground(dark_correct_bg);
+                    correct.setBackground(dark_button_bg);
                     correct.setForeground(dark_fg);
                     ta1.setBackground(dark_ta_bg);
                     ta1.setForeground(dark_fg);
@@ -184,13 +220,13 @@ public class Main {
                     cb2.setForeground(dark_fg);
                     cb3.setBackground(dark_bg);
                     cb3.setForeground(dark_fg);
-                    view.setBackground(dark_view_bg);
+                    view.setBackground(dark_button_bg);
                     view.setForeground(dark_fg);
                 } else {
                     frame.getContentPane().setBackground(default_bg);
                     textPanel.setBackground(default_bg);
                     buttonPanel.setBackground(default_bg);
-                    correct.setBackground(default_correct_bg);
+                    correct.setBackground(default_button_bg);
                     correct.setForeground(default_fg);
                     ta1.setBackground(default_ta_bg);
                     ta1.setForeground(default_fg);
@@ -204,7 +240,7 @@ public class Main {
                     cb2.setForeground(default_fg);
                     cb3.setBackground(default_bg);
                     cb3.setForeground(default_fg);
-                    view.setBackground(default_view_bg);
+                    view.setBackground(default_button_bg);
                     view.setForeground(default_fg);
                 }
             } catch (Exception ex) {
@@ -213,7 +249,7 @@ public class Main {
         });
 
         view.addActionListener(e -> {
-            if (frame.getWidth() <= 700) {
+            if (frame.getWidth() <= 1000) {
                 isHorisontal.set(true);
                 frame.setSize(frame_size2);
                 frame.setLocationRelativeTo(null);
