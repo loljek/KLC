@@ -3,54 +3,55 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class WordsChecker {
-    public static String checkWord (String text) {
+    private static JSONObject getJsonObject(String word) throws IOException {
+        URL url = new URL("https://speller.yandex.net/services/spellservice.json/checkText?text=" + word);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            sb.append(line);
+        }
+        bufferedReader.close();
+        String response = sb.toString();
+        JSONArray jsonArray = new JSONArray(response);
+        return jsonArray.getJSONObject(0);
+    }
+
+    public static String checkWord (String word) {
         try {
-            char last = text.charAt(text.length() - 1);
-            char first = text.charAt(0);
-            boolean isLN = false;
-            boolean isFN = false;
-            String word = text;
-            if (!Character.isLetter(last) & !Character.isLetter(first)) {
-                word = text.substring(1, text.length() - 1);
-                isLN = true;
-                isFN = true;
-            } else if (!Character.isLetter(last)) {
-                word = text.substring(0, text.length() - 1);
-                isLN = true;
-            } else if (!Character.isLetter(first)) {
-                word = text.substring(1, text.length());
-                isFN = true;
+            char last = word.charAt(word.length() - 1);
+            char first = word.charAt(0);
+            boolean[] isN = new boolean[2];
+            String send = word;
+            if (!Character.isLetter(last)) {
+                send = word.substring(0, word.length() - 1);
+                isN[0] = true;
             }
-
-            URL url = new URL("https://speller.yandex.net/services/spellservice.json/checkText?text=" + word);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
+            if (!Character.isLetter(first)) {
+                send = word.substring(1);
+                isN[1] = true;
             }
-            bufferedReader.close();
-            String response = sb.toString();
-            JSONArray jsonArray = new JSONArray(response);
-            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            
+            JSONObject jsonObject = getJsonObject(send);
             StringBuilder r = new StringBuilder(jsonObject.get("s").toString().split("\"")[1]);
-
-            if (isLN) {
+            
+            if (isN[0]) {
                 r.append(last);
             }
-            if (isFN) {
+            if (isN[1]) {
                 r.insert(0, first);
             }
-            return r + " ";
+            return r.toString();
         } catch (Exception ignored) {}
-        return text + " ";
+        return word;
     }
 
     public static String checkText (String text) {
@@ -59,7 +60,7 @@ public class WordsChecker {
         for (String line : lines) {
             String[] words = line.split(" ");
             for (String word : words) {
-                r.append(WordsChecker.checkWord(word));
+                r.append(WordsChecker.checkWord(word)).append(" ");
             }
             r.append('\n');
         }

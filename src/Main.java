@@ -1,9 +1,9 @@
 // Создаёт и запускает приложение
 
 import javax.swing.*;
+import java.awt.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main {
@@ -14,13 +14,13 @@ public class Main {
 
         JFrame frame = new JFrame("KLC");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension frame_size = new Dimension(700, 700);
+        Dimension frame_size1 = new Dimension(700, 700);
         Dimension frame_size2 = new Dimension(1090,550);
         AtomicBoolean isHorisontal = new AtomicBoolean(FileManager.loadConfig(configFile, 3));
         if (isHorisontal.get()){
             frame.setSize(frame_size2);
         } else {
-            frame.setSize(frame_size);
+            frame.setSize(frame_size1);
         }
         frame.setLocationRelativeTo(null);
 
@@ -46,7 +46,6 @@ public class Main {
 
         JCheckBox cb1 = new JCheckBox();
         cb1.setText("умная конвертация (работает медленнее)");
-        cb1.setSelected(FileManager.loadConfig(configFile, 0));
         JCheckBox cb2 = new JCheckBox();
         cb2.setText("сохранять текст");
         cb2.setSelected(FileManager.loadConfig(configFile, 1));
@@ -172,6 +171,7 @@ public class Main {
                 if (ta1.getText().isEmpty()) {
                     ta1.setText(FileManager.loadText(inputTextFile));
                     ta2.setText(FileManager.loadText(outputTextFile));
+                    cb1.setSelected(FileManager.loadConfig(configFile, 0));
                     correct.setText("поменять раскладку");
                 } else {
                     if (cb1.isSelected()) {
@@ -183,7 +183,7 @@ public class Main {
                     if (cb2.isSelected()) {
                         FileManager.saveText(inputTextFile, ta1.getText());
                         FileManager.saveText(outputTextFile, ta2.getText());
-                        FileManager.saveConfig(configFile, cb1.isSelected(), FileManager.loadConfig(configFile, 1), FileManager.loadConfig(configFile, 2), FileManager.loadConfig(configFile, 3));
+                        FileManager.saveConfig(configFile,  cb1.isSelected(), 0);
                     }
                 }
             } catch(Exception ex){
@@ -193,7 +193,7 @@ public class Main {
 
         cb2.addActionListener(e -> {
             try {
-                FileManager.saveConfig(configFile, FileManager.loadConfig(configFile, 0), cb2.isSelected(), FileManager.loadConfig(configFile, 2), FileManager.loadConfig(configFile, 3));
+                FileManager.saveConfig(configFile, cb2.isSelected(), 1);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -201,7 +201,7 @@ public class Main {
 
         cb3.addActionListener(e -> {
             try {
-                FileManager.saveConfig(configFile, FileManager.loadConfig(configFile, 0), FileManager.loadConfig(configFile, 1), cb3.isSelected(), FileManager.loadConfig(configFile, 3));
+                FileManager.saveConfig(configFile, cb3.isSelected(), 2);
                 if (cb3.isSelected()) {
                     frame.getContentPane().setBackground(dark_bg);
                     textPanel.setBackground(dark_bg);
@@ -252,14 +252,12 @@ public class Main {
             if (frame.getWidth() <= 1000) {
                 isHorisontal.set(true);
                 frame.setSize(frame_size2);
-                frame.setLocationRelativeTo(null);
-                FileManager.saveConfig(configFile ,FileManager.loadConfig(configFile, 0), FileManager.loadConfig(configFile,1), FileManager.loadConfig(configFile,2), isHorisontal.get());
             } else {
                 isHorisontal.set(false);
-                frame.setSize(frame_size);
-                frame.setLocationRelativeTo(null);
-                FileManager.saveConfig(configFile ,FileManager.loadConfig(configFile, 0), FileManager.loadConfig(configFile,1), FileManager.loadConfig(configFile,2), isHorisontal.get());
+                frame.setSize(frame_size1);
             }
+            frame.setLocationRelativeTo(null);
+            FileManager.saveConfig(configFile, isHorisontal.get(), 3);
         });
     }
 }
