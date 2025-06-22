@@ -1,5 +1,3 @@
-// Сверяется с !ОНЛАЙН! словарём
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -8,7 +6,23 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Проверяет правильность написания при помощи API от Яндекса(speller).
+ * @see WordsChecker#getJsonObject(String)
+ * @see WordsChecker#checkWord(String)
+ * @see WordsChecker#checkText(String)
+ */
+
 public class WordsChecker {
+
+    /**
+     * Отправляет запрос в API от Яндекса(speller).
+     * @param word слово для проверки
+     * @return возвращает ответ от API от Яндекса(speller).
+     * @see WordsChecker#checkWord(String)
+     * @see WordsChecker#checkText(String)
+     */
+
     private static JSONObject getJsonObject(String word) throws IOException {
         URL url = new URL("https://speller.yandex.net/services/spellservice.json/checkText?text=" + word);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -25,35 +39,31 @@ public class WordsChecker {
         return jsonArray.getJSONObject(0);
     }
 
+    /**
+     * Проверяет правильность написания слова при помощи API от Яндекса(speller).
+     * @param word слово для проверки
+     * @return возвращает правильное(с орфографической точки зрения) слово
+     * @see WordsChecker#getJsonObject(String)
+     * @see WordsChecker#checkText(String)
+     */
+
     public static String checkWord (String word) {
         try {
-            char last = word.charAt(word.length() - 1);
-            char first = word.charAt(0);
-            boolean[] isN = new boolean[2];
-            String send = word;
-            if (!Character.isLetter(last)) {
-                send = word.substring(0, word.length() - 1);
-                isN[0] = true;
-            }
-            if (!Character.isLetter(first)) {
-                send = word.substring(1);
-                isN[1] = true;
-            }
-            
-            JSONObject jsonObject = getJsonObject(send);
-            StringBuilder r = new StringBuilder(jsonObject.get("s").toString().split("\"")[1]);
-            
-            if (isN[0]) {
-                r.append(last);
-            }
-            if (isN[1]) {
-                r.insert(0, first);
-            }
-            return r.toString();
+            JSONObject jsonObject = getJsonObject(word);
+            return jsonObject.get("s").toString().split("\"")[1];
         } catch (Exception ignored) {}
         return word;
     }
 
+    /**
+     * Проверяет правильность написания текста при помощи API от Яндекса(speller), 
+     * разбивает текст на слова и проверяет их по отдельности.
+     * @param text текст для проверки
+     * @return возвращает правильный(с орфографической точки зрения) текст
+     * @see WordsChecker#getJsonObject(String)
+     * @see WordsChecker#checkWord(String) 
+     */
+    
     public static String checkText (String text) {
         String[] lines = text.split("\n");
         StringBuilder r = new StringBuilder();

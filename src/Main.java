@@ -1,12 +1,20 @@
-// Создаёт и запускает приложение
-
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Меняет раскладку у текста на правильную.
+ * @author loljek
+ * @version 1.5
+ */
+
 public class Main {
+    /**
+     * Создаёт окно приложения
+     * @param args аргументы
+     */
     public static void main (String[] args) {
         String inputTextFile = "inputText.txt";
         String outputTextFile = "outputText.txt";

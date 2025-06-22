@@ -1,11 +1,25 @@
-// Работает с файлами
-
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+/**
+ * Работает с файлами.
+ * @see FileManager#loadText(String)  
+ * @see FileManager#saveText(String, String)
+ * @see FileManager#loadConfig(String, int) 
+ * @see FileManager#saveConfig(String, boolean, int)
+ */
+
 public class FileManager {
+    /**Количество настроек.*/
     public static final int configLines = 4;
+
+    /**
+     * Загрузка текста из файла.
+     * @param file название файла
+     * @return возвращает текст файла
+     * @see FileManager#saveText(String, String)
+     */
 
     public static String loadText(String file) {
         StringBuilder text = new StringBuilder();
@@ -21,6 +35,13 @@ public class FileManager {
         return text.toString();
     }
 
+    /**
+     * Сохранение текста в файл.
+     * @param file название файла
+     * @param text текст
+     * @see FileManager#loadText(String)
+     */
+
     public static void saveText(String file, String text) {
         try {
             FileWriter fw = new FileWriter(file);
@@ -30,6 +51,14 @@ public class FileManager {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Загрузка конкретной настройки из файла.
+     * @param file название файла
+     * @param line строка с настройкой
+     * @return возвращает параметр настройки
+     * @see FileManager#saveConfig(String, boolean, int)
+     */
 
     public static boolean loadConfig (String file, int line) {
         boolean f = false;
@@ -43,6 +72,13 @@ public class FileManager {
         }
         return f;
     }
+
+    /**
+     * Загрузка конкретной настройки из файла.
+     * @param file название файла
+     * @param f параметр
+     * @see FileManager#loadConfig(String, int)
+     */
 
     public static void saveConfig (String file, boolean f, int line) {
         try {

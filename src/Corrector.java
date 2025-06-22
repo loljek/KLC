@@ -1,12 +1,22 @@
-// Меняет раскладку
-
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Исправляет раскладку.
+ * @see Corrector#getCorrectChar(char)
+ * @see Corrector#getCorrectString(String)
+ */
+
 public class Corrector {
+    /**
+     * Исправляет символ.
+     * @param ch символ для исправления
+     * @return возвращает исправленный символ
+     * @see Corrector#getCorrectString(String)
+     */
+
     public static char getCorrectChar(char ch) {
         Map<Character, Character> corrected = new HashMap<>();
-        // с английской на русскую
         corrected.put('f', 'а');
         corrected.put(',', 'б');
         corrected.put('<', 'Б');
@@ -47,7 +57,7 @@ public class Corrector {
         corrected.put('.', 'ю');
         corrected.put('>', 'Ю');
         corrected.put('z', 'я');
-        // с русской на английскую
+
         corrected.put('ф', 'a');
         corrected.put('и', 'b');
         corrected.put('с', 'c');
@@ -96,6 +106,13 @@ public class Corrector {
         }
         return ch;
     }
+
+    /**
+     * Исправляет текст, не обращает внимание на символы внутри #,
+     * по отдельности исправляет каждый символ, используя {@link Corrector#getCorrectChar getCorrectChar}
+     * @param text текст для исправления
+     * @return возвращает исправленный текст
+     */
 
     public static String getCorrectString (String text) {
         char[] ct = text.toCharArray();
