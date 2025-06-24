@@ -74,7 +74,7 @@ public class FileManager {
     }
 
     /**
-     * Загрузка конкретной настройки из файла.
+     * Сохранение настройки в файл.
      * @param file название файла
      * @param f параметр
      * @see FileManager#loadConfig(String, int)
